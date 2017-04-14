@@ -1,15 +1,34 @@
-package gumeniuk.privatinfo.ATM;
+package gumeniuk.privatinfo.PrivatApi;
 
 
-public class CashMashineSchedule {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+public class Tw {
+
+    @SerializedName("mon")
+    @Expose
     private String mon;
+    @SerializedName("tue")
+    @Expose
     private String tue;
+    @SerializedName("wed")
+    @Expose
     private String wed;
+    @SerializedName("thu")
+    @Expose
     private String thu;
+    @SerializedName("fri")
+    @Expose
     private String fri;
+    @SerializedName("sat")
+    @Expose
     private String sat;
+    @SerializedName("sun")
+    @Expose
     private String sun;
+    @SerializedName("hol")
+    @Expose
     private String hol;
 
     public String getMon() {

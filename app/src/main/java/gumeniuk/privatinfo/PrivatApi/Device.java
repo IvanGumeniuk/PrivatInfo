@@ -1,21 +1,45 @@
-package gumeniuk.privatinfo.ATM;
+package gumeniuk.privatinfo.PrivatApi;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+public class Device {
 
-public class CashMashineInfo {
-
+    @SerializedName("type")
+    @Expose
     private String type;
+    @SerializedName("cityRU")
+    @Expose
     private String cityRU;
+    @SerializedName("cityUA")
+    @Expose
     private String cityUA;
+    @SerializedName("cityEN")
+    @Expose
     private String cityEN;
+    @SerializedName("fullAddressRu")
+    @Expose
     private String fullAddressRu;
+    @SerializedName("fullAddressUa")
+    @Expose
     private String fullAddressUa;
+    @SerializedName("fullAddressEn")
+    @Expose
     private String fullAddressEn;
+    @SerializedName("placeRu")
+    @Expose
     private String placeRu;
+    @SerializedName("placeUa")
+    @Expose
     private String placeUa;
+    @SerializedName("latitude")
+    @Expose
     private String latitude;
+    @SerializedName("longitude")
+    @Expose
     private String longitude;
-
-    private CashMashineSchedule cashMashineSchedule;
+    @SerializedName("tw")
+    @Expose
+    private Tw tw;
 
     public String getType() {
         return type;
@@ -105,12 +129,12 @@ public class CashMashineInfo {
         this.longitude = longitude;
     }
 
-    public CashMashineSchedule getCashMashineSchedule() {
-        return cashMashineSchedule;
+    public Tw getTw() {
+        return tw;
     }
 
-    public void setCashMashineSchedule(CashMashineSchedule cashMashineSchedule) {
-        this.cashMashineSchedule = cashMashineSchedule;
+    public void setTw(Tw tw) {
+        this.tw = tw;
     }
 
 }

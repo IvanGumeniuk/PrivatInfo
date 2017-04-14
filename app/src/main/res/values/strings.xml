@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PrivatInfo</string>
+    <string name="googleMapsApiCode">AIzaSyDFGCvdx-aUZIvOuroFRVVNpjpL5PhTcck</string>
 </resources>
