@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -148,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void createMarkers() {
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+
         if (city != null && mapTSOS.size() == 0 && mapATMS.size() == 0) {
             mapTSOS.addAll(city.getTsos());
             mapATMS.addAll(city.getAtms());
@@ -189,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         app.getRealm().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                if (marker.getSnippet().equals(R.string.ATM)) {
+                if (marker.getSnippet().equals(getString(R.string.ATM))) {
                     atm[0] = realm.where(ATM.class).equalTo(getString(R.string.Latitude), lat).findAll()
                             .where().equalTo(getString(R.string.Longitude), lng).findFirst();
                     showMarkerInfo(atm[0]);
