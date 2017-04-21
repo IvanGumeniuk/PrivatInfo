@@ -95,4 +95,16 @@ public class Tw {
         this.hol = hol;
     }
 
+    @Override
+    public String toString() {
+        return "Tw" +
+                "\nmon=" + mon +
+                "\ntue=" + tue +
+                "\nwed=" + wed +
+                "\nthu=" + thu +
+                "\nfri=" + fri +
+                "\nsat=" + sat +
+                "\nsun=" + sun +
+                "\nhol=" + hol ;
+    }
 }
