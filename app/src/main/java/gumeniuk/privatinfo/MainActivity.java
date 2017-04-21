@@ -12,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProgressDialog mProgressDialog;
     private ArrayList<ATM> mapATMS;
     private ArrayList<TSO> mapTSOS;
-    private static int countA;
-    private static int countT;
     public City city;
     public String cityName;
 
@@ -69,22 +65,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        countA = 0;
-        countT = 0;
-
-
         atms = new ArrayList<>();
         tsos = new ArrayList<>();
         mapATMS = new ArrayList<>();
         mapTSOS = new ArrayList<>();
-
-        Button bb = (Button)findViewById(R.id.button);
-        bb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "atm:"+countA+"\ntso:"+countT, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         getUserLocation();
     }
