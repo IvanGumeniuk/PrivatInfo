@@ -42,6 +42,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public MyApp app;
+    public City city;
+    public String cityName;
     double latitude;
     double longitude;
     GoogleMap mMap;
@@ -50,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProgressDialog mProgressDialog;
     private ArrayList<ATM> mapATMS;
     private ArrayList<TSO> mapTSOS;
-    public City city;
-    public String cityName;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -93,14 +93,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         if (id == R.id.Exit) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Are you sure?");
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.AreYouSure);
+            builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.Ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onFailure(Call<CashMashines> call, Throwable t) {
                 hideProgressDialog();
-                Toast.makeText(MainActivity.this, "ATM finding error. Check internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.AtmFinderror, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -141,15 +141,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onFailure(Call<CashMashines> call, Throwable t) {
                 hideProgressDialog();
-                Toast.makeText(MainActivity.this, "TSO finding error. Check internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.TsoFindError, Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
     private void createMarkers() {
-        if(city!=null && mapTSOS.size()==0 && mapATMS.size()==0)
-        {
+        if (city != null && mapTSOS.size() == 0 && mapATMS.size() == 0) {
             mapTSOS.addAll(city.getTsos());
             mapATMS.addAll(city.getAtms());
         }
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.addMarker(new MarkerOptions().position(latlng)
                     .title(device.getPlace())
                     .icon(icon)
-                    .snippet("ATM"));
+                    .snippet(getString(R.string.ATM)));
         }
 
         icon = BitmapDescriptorFactory.fromResource(R.mipmap.tso_marker);
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.addMarker(new MarkerOptions().position(latlng)
                     .title(device.getPlace())
                     .icon(icon)
-                    .snippet("TSO"));
+                    .snippet(getString(R.string.TSO)));
         }
         hideProgressDialog();
 
@@ -190,13 +189,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         app.getRealm().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                if (marker.getSnippet().equals("ATM")) {
-                    atm[0] = realm.where(ATM.class).equalTo("latitude", lat).findAll()
-                            .where().equalTo("longitude", lng).findFirst();
+                if (marker.getSnippet().equals(R.string.ATM)) {
+                    atm[0] = realm.where(ATM.class).equalTo(getString(R.string.Latitude), lat).findAll()
+                            .where().equalTo(getString(R.string.Longitude), lng).findFirst();
                     showMarkerInfo(atm[0]);
                 } else {
-                    tso[0] = realm.where(TSO.class).equalTo("latitude", lat).findAll()
-                            .where().equalTo("longitude", lng).findFirst();
+                    tso[0] = realm.where(TSO.class).equalTo(getString(R.string.Latitude), lat).findAll()
+                            .where().equalTo(getString(R.string.Longitude), lng).findFirst();
                     showMarkerInfo(tso[0]);
                 }
             }
@@ -207,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void showMarkerInfo(ATM atm) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Information");
+        builder.setTitle(R.string.Information);
 
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         layout.addView(shedule);
         builder.setView(layout);
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -241,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void showMarkerInfo(TSO tso) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Information");
+        builder.setTitle(R.string.Information);
 
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -256,16 +255,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             address.setTextColor(ContextCompat.getColor(this, R.color.black));
             shedule.setText(tso.getShedule().toString());
             shedule.setTextColor(ContextCompat.getColor(this, R.color.black));
-        }
-        else
+        } else
 
-        
-        layout.addView(info);
+
+            layout.addView(info);
         layout.addView(address);
         layout.addView(shedule);
         builder.setView(layout);
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -315,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onResponse(Call<TownRequest> call, Response<TownRequest> response) {
                 for (int i = 1; i < response.body().getResults().size(); i++)
-                    if (response.body().getResults().get(i).getTypes().get(0).equals("postal_code")) {
+                    if (response.body().getResults().get(i).getTypes().get(0).equals(getString(R.string.postal_code))) {
 
                         cityName = String.valueOf(response.body().getResults().get(i).getAddressComponents().get(1).getShortName().trim());
                         city = app.getRealmData(cityName);
@@ -327,14 +325,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                     } else if (i == response.body().getResults().size() - 1) {
                         hideProgressDialog();
-                        Toast.makeText(MainActivity.this, "Cannot find the city", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.CannotFindTheCity, Toast.LENGTH_SHORT).show();
                     }
             }
 
             @Override
             public void onFailure(Call<TownRequest> call, Throwable t) {
                 hideProgressDialog();
-                Toast.makeText(MainActivity.this, "Something is wrong. Check internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.SomethingIsWrong, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -342,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void showProgressDialog(Context context) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(context);
-            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setMessage(getString(R.string.Loading));
             mProgressDialog.setIndeterminate(true);
         }
         mProgressDialog.show();
@@ -353,56 +351,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mProgressDialog.dismiss();
         }
     }
-
-
-    /*  private void showStartDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("City name");
-
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        final EditText inputTitle = new EditText(this);
-
-        inputTitle.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        inputTitle.setHint("City name in russian");
-        inputTitle.setHintTextColor(ContextCompat.getColor(this, R.color.grey));
-
-        layout.addView(inputTitle);
-        builder.setView(layout);
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!inputTitle.getText().toString().trim().isEmpty() && validCity(inputTitle.getText().toString().trim())) {
-                    privatRequest(inputTitle.getText().toString().trim());
-                    showProgressDialog(MainActivity.this);
-                } else {
-                    Toast.makeText(MainActivity.this, "Please, enter sity name", Toast.LENGTH_SHORT).show();
-                    showStartDialog();
-                }
-            }
-        });
-
-        builder.setNeutralButton("Use current location", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getUserLocation();
-                dialog.dismiss();
-                showProgressDialog(MainActivity.this);
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-    }*/
 
 }

@@ -22,21 +22,12 @@ import io.realm.RealmList;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-/**
- * Created by Ваня on 12.04.2017.
- */
-
 public class MyApp extends Application {
 
     private static AtmService atmService;
     private static TsoService tsoService;
     private static LocationWorking locationWorking;
     private Realm realm;
-
-    public Realm getRealm() {
-        return realm;
-    }
 
     public static AtmService getAtmService() {
         return atmService;
@@ -48,6 +39,10 @@ public class MyApp extends Application {
 
     public static LocationWorking getLocationWorking() {
         return locationWorking;
+    }
+
+    public Realm getRealm() {
+        return realm;
     }
 
     @Override
@@ -136,25 +131,24 @@ public class MyApp extends Application {
             public void execute(Realm realm) {
                 City city = realm.createObject(City.class, UUID.randomUUID().toString());
                 city.setName(cityName);
-                RealmList<ATM> atmRealmList = new RealmList<ATM>();
-                RealmList<TSO> tsoRealmList = new RealmList<TSO>();
+                RealmList<ATM> atmRealmList = new RealmList<>();
+                RealmList<TSO> tsoRealmList = new RealmList<>();
                 atmRealmList.addAll(listATM);
                 tsoRealmList.addAll(listTSO);
 
                 if (!atmRealmList.isManaged()) {
-                    RealmList<ATM> managedATM = new RealmList<ATM>();
+                    RealmList<ATM> managedATM = new RealmList<>();
                     for (ATM atm : atmRealmList)
                         if (atm.isManaged()) {
                             managedATM.add(atm);
-                        }
-                        else {
+                        } else {
                             managedATM.add(realm.copyToRealm(atm));
                         }
                     atmRealmList = managedATM;
                 }
 
                 if (!tsoRealmList.isManaged()) {
-                    RealmList<TSO> managedTSO = new RealmList<TSO>();
+                    RealmList<TSO> managedTSO = new RealmList<>();
                     for (TSO tso : tsoRealmList)
                         if (tso.isManaged())
                             managedTSO.add(tso);
@@ -175,7 +169,7 @@ public class MyApp extends Application {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                result[0] = realm.where(City.class).equalTo("name", cityName).findFirst();
+                result[0] = realm.where(City.class).equalTo(getString(R.string.name), cityName).findFirst();
             }
         });
         return result[0];

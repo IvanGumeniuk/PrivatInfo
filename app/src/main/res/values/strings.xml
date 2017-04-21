@@ -4,4 +4,19 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="AtmFinderror">ATM finding error. Check internet connection</string>
+    <string name="TsoFindError">TSO finding error. Check internet connection</string>
+    <string name="AreYouSure">Are you sure?</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Ok">Ok</string>
+    <string name="ATM">ATM</string>
+    <string name="TSO">TSO</string>
+    <string name="Latitude">latitude</string>
+    <string name="Longitude">longitude</string>
+    <string name="Information">Information</string>
+    <string name="postal_code">postal_code</string>
+    <string name="CannotFindTheCity">Cannot find the city</string>
+    <string name="SomethingIsWrong">Something is wrong. Check internet connection</string>
+    <string name="Loading">Loading...</string>
+    <string name="name">name</string>
 </resources>
